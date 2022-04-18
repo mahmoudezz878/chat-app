@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  margin: 3rem 5rem;
+}
+.nav {
+  background-color: #373759;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 4rem;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-text {
+  margin-left: 20px;
+}
+
+.logo-text h2 {
+  color: #03ccbb;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.logo-text .ect {
+  color: #6c89f4;
+}
