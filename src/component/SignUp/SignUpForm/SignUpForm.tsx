@@ -77,10 +77,10 @@ const SignUpForm = () => {
           onChange={formik.handleChange}
         />
         <Button className="btn" type="submit" variant="contained">
-          SIGN UP
+          SIGNUP
         </Button>
         <div className="already">
-          Already have an account ? <span className="sign-in"> Sign in</span>
+          Already have an account ? <a href="/login" className="sign-in">Login</a>
         </div>
       </div>
     </form>

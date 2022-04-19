@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/reducer/app";
 import { RootState } from "../../redux/store";
 import * as api from "../../api";
+
+import { io } from "socket.io-client";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 import UserMessage from "./UserMessage/UserMessage";
+
 
 const HomePage = () => {
   const data = [
@@ -45,11 +48,22 @@ const HomePage = () => {
   const localToken = token || localStorage.getItem("token") || "";
   useEffect(() => {
     fetchUser(localToken);
-  }, []);
+    const socket = io("http://localhost:3000", {
+  withCredentials: true
+  })}, []);
 
   const user = useSelector((state: RootState) => state.app.user);
   console.log(user);
+
   return (
+
+    <div>
+      <h1>HomePage</h1>
+      <h4>{token || localStorage.getItem("token")}</h4>
+      {/* {JSON.stringify(user)} */}
+      <h6>{user?.name}</h6>
+      
+
     <div className="container">
       <div className="home">
         <div className="messages">
