@@ -20,6 +20,7 @@ body {
 .logo {
   display: flex;
   align-items: center;
+  text-decoration: none;
 }
 
 .logo-text {
@@ -35,6 +36,10 @@ body {
 
 .ect {
   color: #6c89f4;
+}
+
+.conn {
+  color: #03ccbb;
 }
 
 .logInContainer {
@@ -77,6 +82,8 @@ body {
   flex: 50%;
   height: 500px;
   background-color: #fff;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .btn {
@@ -102,6 +109,7 @@ body {
 
 .sign-in {
   color: #6c89f4;
+  text-decoration: none;
 }
 
 .footer {

@@ -71,7 +71,7 @@ const LogInForm = () => {
           LOGIN
         </Button>
         <div className="already">
-          don't have an account ? <span className="sign-in"> Sign up</span>
+          don't have an account ? <a href="/signup" className="sign-in"> Sign up</a>
         </div>
       </div>
     </form>
