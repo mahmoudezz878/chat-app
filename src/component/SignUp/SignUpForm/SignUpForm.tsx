@@ -3,32 +3,27 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import * as api from "../../../api";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { setToken } from "../../../redux/reducer/app";
-
+// import { useDispatch } from "react-redux";
 // import { addPosts } from "../actions/posts.actions";
 
-const LogInForm = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+const SignUpForm = () => {
+  //   const dispatch = useDispatch();
+
+  //   onClick={formik.handleSubmit}
 
   const formik = useFormik({
     initialValues: {
+      name: "",
       password: "",
       email: "",
     },
     onSubmit: async (values) => {
-      const response = await api.logIn(values.email, values.password);
-      const token = response.data.token;
-      if (token) {
-        dispatch(setToken(token));
-        localStorage.setItem("token", token);
-      }
+      const userInfo = await api.newUser(values);
+      console.log(userInfo);
       formik.resetForm();
-      navigate("/");
     },
     validationSchema: Yup.object({
+      name: Yup.string().required("this input is required"),
       password: Yup.string().required("this input is required"),
       email: Yup.string().required("this input is required"),
     }),
@@ -37,7 +32,21 @@ const LogInForm = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="sign">
-        <p className="signUp-p">Login</p>
+        <p className="signUp-p">Sign Up</p>
+        <TextField
+          sx={{ marginBottom: "2rem" }}
+          error={!!formik.errors.name}
+          helperText={formik.errors.name}
+          id="name"
+          name="name"
+          label="Name"
+          placeholder="Name"
+          variant="standard"
+          fullWidth
+          onBlur={formik.handleBlur}
+          value={formik.values.name}
+          onChange={formik.handleChange}
+        />
         <TextField
           sx={{ marginBottom: "2rem" }}
           error={!!formik.errors.email}
@@ -68,14 +77,14 @@ const LogInForm = () => {
           onChange={formik.handleChange}
         />
         <Button className="btn" type="submit" variant="contained">
-          LOGIN
+          SIGN UP
         </Button>
         <div className="already">
-          don't have an account ? <span className="sign-in"> Sign up</span>
+          Already have an account ? <span className="sign-in"> Sign in</span>
         </div>
       </div>
     </form>
   );
 };
 
-export default LogInForm;
+export default SignUpForm;

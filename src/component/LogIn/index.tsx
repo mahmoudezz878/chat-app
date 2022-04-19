@@ -1,7 +1,7 @@
 import LogInForm from "./LogInForm/LogInForm";
 import LogInLogo from "./LogInLogo/LogInLogo";
 
-const LogIn = () => {
+const SignUp = () => {
   return (
     <div className="container">
       <div className="logInContainer">
@@ -14,4 +14,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default SignUp;
