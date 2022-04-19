@@ -1,10 +1,12 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: #f4f5fb;
 }
 .container {
-  margin: 3rem 5rem;
+  margin: 4rem 8rem;
 }
+
 .nav {
   background-color: #373759;
   display: flex;
@@ -31,6 +33,80 @@ body {
   margin: 0;
 }
 
-.logo-text .ect {
+.ect {
   color: #6c89f4;
+}
+
+.logInContainer {
+  display: flex;
+  align-items: center;
+}
+
+.logIn-image {
+  position: relative;
+  background-color: #373759;
+  flex: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 500px;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+}
+
+.logIn-title {
+  color: #03ccbb;
+  font-size: 2rem;
+  font-weight: bold;
+  position: absolute;
+  top: 370px;
+}
+
+.logIn-title h4 {
+  margin: 0;
+}
+
+.hi {
+  color: #fff;
+}
+
+.logIn-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 50%;
+  height: 500px;
+  background-color: #fff;
+}
+
+.btn {
+  width: 100%;
+  background-color: #03ccbb !important;
+}
+
+.already {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 20px;
+  color: #5f5f5f;
+}
+
+.sign {
+  padding: 0 1rem;
+}
+
+.signUp-p {
+  color: #5f5f5f;
+  font-size: 18px;
+}
+
+.sign-in {
+  color: #6c89f4;
+}
+
+.footer {
+  height: 50px;
+  background-color: #373759;
+  
+  
 }
