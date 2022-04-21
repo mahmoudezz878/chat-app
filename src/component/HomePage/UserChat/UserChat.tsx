@@ -9,7 +9,7 @@ const UserChat = () => {
 
   async function fetchingChat(id: string) {
     const oldChat = await api.getChat(id); //should use this to map old chat messages
-    console.log(oldChat);
+    return(oldChat.data[0].messages);
   }
 
   // const messages = [
@@ -33,7 +33,8 @@ const UserChat = () => {
 
 
   useEffect(() => {
-    fetchingChat("2");
+    const chat = fetchingChat("2");
+    // setMessages(chat)
     const socket: Socket = io("http://localhost:3000", {
       withCredentials: true,
     });
