@@ -83,6 +83,7 @@ const HomePage = () => {
   });
 
   return (
+
     <div className="container">
       <div className="home">
         <div className="messages">
@@ -112,11 +113,13 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+
       {/* <div>
         <h1>HomePage</h1>
         <h4>{token || localStorage.getItem("token")}</h4>
         <h6>{user?.name}</h6>
         </div> */}
+
     </div>
   );
 };
