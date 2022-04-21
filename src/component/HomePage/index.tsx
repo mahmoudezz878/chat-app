@@ -42,21 +42,23 @@ const HomePage = () => {
     },
   ];
 
+  async function fetchChats(id:string){
+    const chats = await api.getChats(id);
+    console.log(chats)
+  }
   const [socket, setSocket] = useState<Socket | null>(null);
-  // const socket = io("http://localhost:3000", {
-  //   withCredentials: true,
-  // });
 
   const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.app.token);
   async function fetchUser(token: string) {
     const response = await api.getUser(token);
-    dispatch(setUser(response.data.user));
+    dispatch(setUser(response.data.user)); 
   }
 
   const localToken = token || localStorage.getItem("token") || "";
   useEffect(() => {
     fetchUser(localToken);
+    fetchChats("1"); //use to map chats on the left 
     const socket: Socket = io("http://localhost:3000", {
       withCredentials: true,
     });
@@ -64,18 +66,19 @@ const HomePage = () => {
   }, []);
 
   const user = useSelector((state: RootState) => state.app.user);
-  console.log(user);
+  console.log(user); //user data
 
   const formik = useFormik({
     initialValues: {
       message: "",
     },
-    onSubmit: (values) => {
-      // const response = await api.logIn(values.email, values.password); socket
+    onSubmit: async (values) => {
       const request = socket?.emit("message",values.message);
       console.log(request);
       formik.resetForm();
       console.log(values.message);
+      const response = await api.sendMessage(values.message, 1, "2")
+      console.log(response);
     },
     validationSchema: Yup.object({
       message: Yup.string().required(),
@@ -87,13 +90,13 @@ const HomePage = () => {
       <div className="home">
         <div className="messages">
           <h2>Messages</h2>
-          {data.map((item) => {
+          {data.map((item) => { 
             return <UserMessage key={item.id} {...item} />;
           })}
         </div>
         <div className="chat">
-          <div className="chatInput">Avatar/Name</div>
-          <UserChat />
+          <div className="chatInput">Avatar/Name</div> 
+          <UserChat /> 
           <div className="chatField">
             <form onSubmit={formik.handleSubmit} className="chat-form">
               <TextField
