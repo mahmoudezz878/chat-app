@@ -15,11 +15,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import UserInfo from "./UserInfo/UserInfo";
 
-const HomePage = () => {
-  type name = {
-    name: string;
-  };
+import Avatar from "@mui/material/Avatar";
+import logo from "../images/avatar.png";
 
+const HomePage = () => {
   const data = [
     {
       id: 1,
@@ -47,23 +46,26 @@ const HomePage = () => {
     },
   ];
 
-  async function fetchChats(id:string){
-    const chats = await api.getChats(id);
-    console.log(chats)
+  async function fetchChats(id: string) {
+    const apiChats = await api.getChats(id);
+    const conversations = apiChats.data[0].conversations;
+    setChats(conversations);
+    console.log("chats", conversations);
   }
   const [socket, setSocket] = useState<Socket | null>(null);
+  const [chats, setChats] = useState([]);
 
   const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.app.token);
   async function fetchUser(token: string) {
     const response = await api.getUser(token);
-    dispatch(setUser(response.data.user)); 
+    dispatch(setUser(response.data.user));
   }
 
   const localToken = token || localStorage.getItem("token") || "";
   useEffect(() => {
     fetchUser(localToken);
-    fetchChats("1"); //use to map chats on the left 
+    fetchChats("1"); //use to map chats on the left
     const socket: Socket = io("http://localhost:3000", {
       withCredentials: true,
     });
@@ -71,21 +73,21 @@ const HomePage = () => {
   }, []);
 
   const user = useSelector((state: RootState) => state.app.user);
-  console.log(user); //user data
+  // console.log(user); //user data
 
   const formik = useFormik({
     initialValues: {
       message: "",
     },
-    
+
     onSubmit: async (values) => {
-      const request = socket?.emit("message",values.message);
+      const request = socket?.emit("message", values.message);
 
       console.log(request);
       formik.resetForm();
-      console.log(values.message);
-      const response = await api.sendMessage(values.message, 1, "2")
-      console.log(response);
+      // console.log(values.message);
+      const response = await api.sendMessage(values.message, 1, "2");
+      // console.log(response);
     },
     validationSchema: Yup.object({
       message: Yup.string().required(),
@@ -97,12 +99,29 @@ const HomePage = () => {
       <div className="home">
         <div className="messages">
           <h2>Messages</h2>
-          {data.map((item) => { 
-            return <UserMessage key={item.id} {...item} />;
+          {chats.map((item: any) => {
+            return (
+              <div>
+              <Avatar
+                alt="Cindy Baker"
+                src={logo}
+                sx={{ width: 70, height: 70 }}
+              />
+              {item.messages?.filter((a:any)=>{
+                return a.user.id !== 1
+              })}
+              </div>
+            );
           })}
+
+          {/* {chats.map((item:any) => { 
+            const x = item?.map((a:any)=>{
+              return <UserMessage key={a.id} {...a} />;
+            })
+            return x
+          })} */}
         </div>
         <div className="chat">
-
           <div className="chatInput">
             <UserInfo name={"mahmoud"} />
             <UserChat />
