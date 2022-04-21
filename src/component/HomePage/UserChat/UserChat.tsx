@@ -3,37 +3,37 @@ import { io, Socket } from "socket.io-client";
 
 const UserChat = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
-  // const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]);
 
-  const messages = [
-    "Hello How Are You ?",
-    "i'm fine what are you going to do this summer",
-    "i'm fine what are you going to do this summer",
-    "i'm fine what are you going to do this summer",
-    "Hello How Are You ?",
-    "i'm fine what are you going to do this summer",
-    "i'm fine what are you going to do this summer",
-    "i'm fine what are you going to do this summer",
-    "Hello How Are You ?",
-    "i'm fine what are you going to do this summer",
-    "i'm fine what are you going to do this summer",
-    "i'm fine what are you going to do this summer",
-    "Hello How Are You ?",
-    "i'm fine what are you going to do this summer",
-    "i'm fine what are you going to do this summer",
-    "i'm fine what are you going to do this summer",
-  ];
+  // const messages = [
+  //   "Hello How Are You ?",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "Hello How Are You ?",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "Hello How Are You ?",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "Hello How Are You ?",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  // ];
 
-  // useEffect(() => {
-  //   const socket: Socket = io("http://localhost:3000", {
-  //     withCredentials: true,
-  //   });
-  //   setSocket(socket);
-  // }, []);
+  useEffect(() => {
+    const socket: Socket = io("http://localhost:3000", {
+      withCredentials: true,
+    });
+    setSocket(socket);
+  }, []);
 
-  // socket?.on("new message", (message) => {
-  //   setMessages(messages? [...messages, message] : message);
-  // });
+  socket?.on("new message", (message) => {
+    setMessages(messages? [...messages, message] : message);
+  });
 
   return (
     <div>
