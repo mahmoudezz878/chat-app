@@ -6,10 +6,31 @@ const UserChat = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState([]);
 
+
   async function fetchingChat(id: string) {
     const oldChat = await api.getChat(id); //should use this to map old chat messages
     console.log(oldChat);
   }
+
+  // const messages = [
+  //   "Hello How Are You ?",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "Hello How Are You ?",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "Hello How Are You ?",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "Hello How Are You ?",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  //   "i'm fine what are you going to do this summer",
+  // ];
+
 
   useEffect(() => {
     fetchingChat("2");
@@ -25,9 +46,13 @@ const UserChat = () => {
 
   return (
     <div>
-      {messages.map((a) => {
-        return <div key={a}>{a}</div>;
-      })}
+
+      <ul className="user-chat">
+        {messages.map((a) => {
+          return <li  key={a} className="user-chat-li">{a}</li>;
+        })}
+      </ul>
+
     </div>
   );
 };

@@ -137,9 +137,14 @@ body {
 
 .chatInput {
   background-color: #fff;
-  min-height: 615px;
+  height: 615px;
   border-radius: 22px;
-  padding: 2rem;
+  padding: 1rem;
+  overflow: auto;
+}
+
+.chatInput::-webkit-scrollbar {
+  display: none;
 }
 
 .chat-form {
@@ -156,10 +161,10 @@ form .MuiOutlinedInput-root {
   color: blue;
 }
 
-.send-button{
+.send-button {
   position: absolute;
   top: -47px;
-  left: 85%;
+  left: 92%;
 }
 
 .user-info {
@@ -197,4 +202,45 @@ form .MuiOutlinedInput-root {
   display: flex;
   align-items: center;
   margin: 10px 0;
+}
+
+.user-info-avatar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5rem;
+}
+
+.user-chat-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.user-chat-name p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.user-chat {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.user-chat-li {
+  width: 200px;
+  background-color: #03ccbb;
+  margin: 20px;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 22px;
+  border-bottom-left-radius: 0;
+}
+
+.user-chat-li:nth-child(2n) {
+  background-color: #6c89f4;
+  margin-left: auto;
+  border-radius: 22px;
+  border-bottom-right-radius: 0;
 }
