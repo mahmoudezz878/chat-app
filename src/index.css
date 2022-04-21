@@ -137,9 +137,14 @@ body {
 
 .chatInput {
   background-color: #fff;
-  min-height: 615px;
+  height: 615px;
   border-radius: 22px;
   padding: 1rem;
+  overflow: auto;
+}
+
+.chatInput::-webkit-scrollbar {
+  display: none;
 }
 
 .chat-form {

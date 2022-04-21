@@ -10,6 +10,18 @@ const UserChat = () => {
     "i'm fine what are you going to do this summer",
     "i'm fine what are you going to do this summer",
     "i'm fine what are you going to do this summer",
+    "Hello How Are You ?",
+    "i'm fine what are you going to do this summer",
+    "i'm fine what are you going to do this summer",
+    "i'm fine what are you going to do this summer",
+    "Hello How Are You ?",
+    "i'm fine what are you going to do this summer",
+    "i'm fine what are you going to do this summer",
+    "i'm fine what are you going to do this summer",
+    "Hello How Are You ?",
+    "i'm fine what are you going to do this summer",
+    "i'm fine what are you going to do this summer",
+    "i'm fine what are you going to do this summer",
   ];
 
   // useEffect(() => {
