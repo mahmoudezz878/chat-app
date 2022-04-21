@@ -4,8 +4,6 @@ import LogIn from "./component/LogIn";
 import Footer from "./component/Footer/Footer";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./component/HomePage";
-import  io  from "socket.io-client";
-import { useEffect } from "react";
 
 function App() {
 

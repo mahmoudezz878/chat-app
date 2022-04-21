@@ -153,10 +153,13 @@ form .MuiOutlinedInput-root {
 }
 
 .send-icon {
-  position: absolute;
-  top: 17px;
-  right: 20px;
   color: blue;
+}
+
+.send-button{
+  position: absolute;
+  top: -47px;
+  left: 85%;
 }
 
 .user-info {

@@ -1,14 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/reducer/app";
 import { RootState } from "../../redux/store";
 import * as api from "../../api";
 
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 import UserMessage from "./UserMessage/UserMessage";
+import UserChat from "./UserChat/UserChat";
 
+import { IconButton } from "@mui/material";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const HomePage = () => {
   const data = [
@@ -38,6 +42,11 @@ const HomePage = () => {
     },
   ];
 
+  const [socket, setSocket] = useState<Socket | null>(null);
+  // const socket = io("http://localhost:3000", {
+  //   withCredentials: true,
+  // });
+
   const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.app.token);
   async function fetchUser(token: string) {
@@ -48,12 +57,30 @@ const HomePage = () => {
   const localToken = token || localStorage.getItem("token") || "";
   useEffect(() => {
     fetchUser(localToken);
-    const socket = io("http://localhost:3000", {
-  withCredentials: true
-  })}, []);
+    const socket: Socket = io("http://localhost:3000", {
+      withCredentials: true,
+    });
+    setSocket(socket);
+  }, []);
 
   const user = useSelector((state: RootState) => state.app.user);
   console.log(user);
+
+  const formik = useFormik({
+    initialValues: {
+      message: "",
+    },
+    onSubmit: (values) => {
+      // const response = await api.logIn(values.email, values.password); socket
+      const request = socket?.emit("message",values.message);
+      console.log(request);
+      formik.resetForm();
+      console.log(values.message);
+    },
+    validationSchema: Yup.object({
+      message: Yup.string().required(),
+    }),
+  });
 
   return (
 
@@ -66,22 +93,33 @@ const HomePage = () => {
           })}
         </div>
         <div className="chat">
-          <div className="chatInput">chat</div>
+          <div className="chatInput">Avatar/Name</div>
+          <UserChat />
           <div className="chatField">
-            <form className="chat-form">
-              <TextField className="chat-input" fullWidth id="fullWidth" />
-              <span className="send-icon">
-                <SendIcon />
-              </span>
+            <form onSubmit={formik.handleSubmit} className="chat-form">
+              <TextField
+                name="message"
+                onBlur={formik.handleBlur}
+                value={formik.values.message}
+                onChange={formik.handleChange}
+                className="chat-input"
+                fullWidth
+                id="fullWidth"
+              />
+              <IconButton type="submit" className="send-button">
+                <SendIcon className="send-icon" />
+              </IconButton>
             </form>
           </div>
         </div>
       </div>
-      <div>
-      {/* <h1>HomePage</h1>
-      <h4>{token || localStorage.getItem("token")}</h4>
-      <h6>{user?.name}</h6> */}
-      </div>
+
+      {/* <div>
+        <h1>HomePage</h1>
+        <h4>{token || localStorage.getItem("token")}</h4>
+        <h6>{user?.name}</h6>
+        </div> */}
+
     </div>
   );
 };
