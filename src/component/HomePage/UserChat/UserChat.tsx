@@ -5,11 +5,14 @@ import * as api from "../../../api";
 const UserChat = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState([]);
+  const [oldMessages, setOldMessages] = useState([]);
 
 
   async function fetchingChat(id: string) {
     const oldChat = await api.getChat(id); //should use this to map old chat messages
-    return(oldChat.data[0].messages);
+    const chat = oldChat.data[0].messages
+    console.log(chat);
+    setOldMessages(chat);
   }
 
   // const messages = [
@@ -33,8 +36,7 @@ const UserChat = () => {
 
 
   useEffect(() => {
-    const chat = fetchingChat("2");
-    // setMessages(chat)
+    fetchingChat("2");
     const socket: Socket = io("http://localhost:3000", {
       withCredentials: true,
     });
@@ -49,6 +51,9 @@ const UserChat = () => {
     <div>
 
       <ul className="user-chat">
+      {oldMessages.map((a:any) => {
+          return <li  key={a} className="user-chat-li">{a.message}</li>;
+        })}
         {messages.map((a) => {
           return <li  key={a} className="user-chat-li">{a}</li>;
         })}
