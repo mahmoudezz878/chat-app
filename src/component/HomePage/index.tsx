@@ -101,25 +101,29 @@ const HomePage = () => {
           <h2>Messages</h2>
           {chats.map((item: any) => {
             return (
-              <div>
-              <Avatar
-                alt="Cindy Baker"
-                src={logo}
-                sx={{ width: 70, height: 70 }}
-              />
-              {item.messages?.filter((a:any)=>{
-                return a.user.id !== 1
-              })}
+              <div className="user-message-avatar">
+                <div className="user-avatar">
+                <Avatar
+                  alt="Cindy Baker"
+                  src={logo}
+                  sx={{ width: 70, height: 70 }}
+                />
+                </div>
+                <div className="user-info">
+                  <span className="user-name">
+                    <h4>{item.messages[0].user.name}</h4>
+                    <span className="time">{item.messages[0].dateCreated}</span>
+                  </span>
+                  <span className="user-msg">{item.messages[0].message}</span>
+                </div>
               </div>
             );
           })}
-
           {/* {chats.map((item:any) => { 
-            const x = item?.map((a:any)=>{
-              return <UserMessage key={a.id} {...a} />;
+              return <UserMessage key={item.id} {...item} />;
             })
-            return x
-          })} */}
+          }) */}
+
         </div>
         <div className="chat">
           <div className="chatInput">
