@@ -13,8 +13,13 @@ import UserChat from "./UserChat/UserChat";
 import { IconButton } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import UserInfo from "./UserInfo/UserInfo";
 
 const HomePage = () => {
+  type name = {
+    name: string;
+  };
+
   const data = [
     {
       id: 1,
@@ -72,7 +77,7 @@ const HomePage = () => {
     },
     onSubmit: (values) => {
       // const response = await api.logIn(values.email, values.password); socket
-      const request = socket?.emit("message",values.message);
+      const request = socket?.emit("message", values.message);
       console.log(request);
       formik.resetForm();
       console.log(values.message);
@@ -83,7 +88,6 @@ const HomePage = () => {
   });
 
   return (
-
     <div className="container">
       <div className="home">
         <div className="messages">
@@ -93,8 +97,10 @@ const HomePage = () => {
           })}
         </div>
         <div className="chat">
-          <div className="chatInput">Avatar/Name</div>
-          <UserChat />
+          <div className="chatInput">
+            <UserInfo name={"mahmoud"} />
+            <UserChat />
+          </div>
           <div className="chatField">
             <form onSubmit={formik.handleSubmit} className="chat-form">
               <TextField
@@ -119,7 +125,6 @@ const HomePage = () => {
         <h4>{token || localStorage.getItem("token")}</h4>
         <h6>{user?.name}</h6>
         </div> */}
-
     </div>
   );
 };

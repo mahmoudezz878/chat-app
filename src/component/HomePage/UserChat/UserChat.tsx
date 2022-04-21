@@ -3,24 +3,35 @@ import { io, Socket } from "socket.io-client";
 
 const UserChat = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [messages, setMessages] = useState([]);
+  // const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    const socket: Socket = io("http://localhost:3000", {
-      withCredentials: true,
-    });
-    setSocket(socket);
-  }, []);
+  const messages = [
+    "Hello How Are You ?",
+    "i'm fine what are you going to do this summer",
+    "i'm fine what are you going to do this summer",
+    "i'm fine what are you going to do this summer",
+  ];
 
-  socket?.on("new message", (message) => {
-    setMessages(messages? [...messages, message] : message);
-  });
+  // useEffect(() => {
+  //   const socket: Socket = io("http://localhost:3000", {
+  //     withCredentials: true,
+  //   });
+  //   setSocket(socket);
+  // }, []);
 
-  return <div>
-      {messages.map((a)=> {
-          return <div key={a}>{a}</div>;
-      })}
-  </div>;
+  // socket?.on("new message", (message) => {
+  //   setMessages(messages? [...messages, message] : message);
+  // });
+
+  return (
+    <div>
+      <ul className="user-chat">
+        {messages.map((a) => {
+          return <li  key={a} className="user-chat-li">{a}</li>;
+        })}
+      </ul>
+    </div>
+  );
 };
 
 export default UserChat;
