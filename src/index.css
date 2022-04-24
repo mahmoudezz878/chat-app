@@ -244,3 +244,8 @@ form .MuiOutlinedInput-root {
   border-radius: 22px;
   border-bottom-right-radius: 0;
 }
+
+.selected {
+  border-left: 4px solid #6c89f4;
+}
+

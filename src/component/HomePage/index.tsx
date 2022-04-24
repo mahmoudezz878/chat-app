@@ -17,6 +17,9 @@ import Avatar from "@mui/material/Avatar";
 import logo from "../images/avatar.png";
 
 const HomePage = () => {
+  const [currentChat, setCurrentChat] = useState(null);
+  const [currentSelected, setCurrentSelected] = useState(0);
+
   async function fetchChats(id: number) {
     const apiChats = await api.getChats(id);
     const conversations = apiChats.data[0].conversations;
@@ -68,14 +71,23 @@ const HomePage = () => {
     }),
   });
 
+  const changeChat = (item :any) => {
+    setCurrentChat(item);
+    setCurrentSelected(item.id);
+    setChatId(item.id)
+    
+    console.log('uhuhuhuhgu',item)
+  }
+
   return (
     <div className="container">
       <div className="home">
         <div className="messages">
           <h2>Messages</h2>
-          {chats.map((item: any) => {
+          {chats.map((item: any, index) => {
             return (
-              <div key={item.id} className="user-message-npavatar" onClick={(()=> setChatId(item.id))}>
+              <div key={index} className={`user-message-avatar ${item.id == currentSelected ? "selected" : ""}`}  onClick={() => changeChat(item)}>
+
                 <div className="user-avatar">
                   <Avatar
                     alt="Cindy Baker"
@@ -100,8 +112,9 @@ const HomePage = () => {
         </div>
         <div className="chat">
           <div className="chatInput">
-            <UserInfo name={"mahmoud"} />
-            <UserChat chatId={chatId}/>
+
+            <UserInfo currentChat={currentChat} chatId={chatId} />
+            <UserChat />
           </div>
 
           <div className="chatField">
