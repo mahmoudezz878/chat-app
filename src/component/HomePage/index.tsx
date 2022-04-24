@@ -17,36 +17,10 @@ import UserInfo from "./UserInfo/UserInfo";
 
 import Avatar from "@mui/material/Avatar";
 import logo from "../images/avatar.png";
+import { UserPayload } from "../../types";
 
 const HomePage = () => {
-  const data = [
-    {
-      id: 1,
-      name: "mahmoud",
-      msg: "really yhat's great let's discuss how to do this very soon",
-      time: "10:34pm",
-    },
-    {
-      id: 2,
-      name: "mahmoud",
-      msg: "really yhat's great let's discuss how to do this very soon",
-      time: "10:34pm",
-    },
-    {
-      id: 3,
-      name: "mahmoud",
-      msg: "really yhat's great let's discuss how to do this very soon",
-      time: "10:34pm",
-    },
-    {
-      id: 4,
-      name: "mahmoud",
-      msg: "really yhat's great let's discuss how to do this very soon",
-      time: "10:34pm",
-    },
-  ];
-
-  async function fetchChats(id: string) {
+  async function fetchChats(id: number) {
     const apiChats = await api.getChats(id);
     const conversations = apiChats.data[0].conversations;
     setChats(conversations);
@@ -54,21 +28,29 @@ const HomePage = () => {
   }
   const [socket, setSocket] = useState<Socket | null>(null);
   const [chats, setChats] = useState([]);
+  const [userId, setUserId] = useState<number | null>(null);
+
+  console.log("user", userId);
 
   const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.app.token);
   async function fetchUser(token: string) {
     const response = await api.getUser(token);
-    dispatch(setUser(response.data.user));
+    // const user = dispatch(setUser(response.data.user));
+    //console.log(user);
+    // setCurrentUser(user);
+    const userId = response.data.user.id
+    //setUserId(userId);
+    fetchChats(userId)
   }
 
   const localToken = token || localStorage.getItem("token") || "";
   useEffect(() => {
     fetchUser(localToken);
-    fetchChats("1"); //use to map chats on the left
     const socket: Socket = io("http://localhost:3000", {
       withCredentials: true,
     });
+    //fetchChats(userId? userId : 0); //use to map chats on the left
     setSocket(socket);
   }, []);
 
@@ -94,6 +76,8 @@ const HomePage = () => {
     }),
   });
 
+  //sortedChat = chat.filter((item)=> item)
+  
   return (
     <div className="container">
       <div className="home">
@@ -103,11 +87,11 @@ const HomePage = () => {
             return (
               <div className="user-message-avatar">
                 <div className="user-avatar">
-                <Avatar
-                  alt="Cindy Baker"
-                  src={logo}
-                  sx={{ width: 70, height: 70 }}
-                />
+                  <Avatar
+                    alt="Cindy Baker"
+                    src={logo}
+                    sx={{ width: 70, height: 70 }}
+                  />
                 </div>
                 <div className="user-info">
                   <span className="user-name">
@@ -123,7 +107,6 @@ const HomePage = () => {
               return <UserMessage key={item.id} {...item} />;
             })
           }) */}
-
         </div>
         <div className="chat">
           <div className="chatInput">

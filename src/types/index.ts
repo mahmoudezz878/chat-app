@@ -9,3 +9,8 @@ export type User = {
     token: string
     user: User | null;
 }
+
+export type UserPayload = {
+  payload: any;
+  type: string;
+}

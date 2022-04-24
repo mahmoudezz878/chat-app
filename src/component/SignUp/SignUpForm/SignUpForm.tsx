@@ -1,15 +1,13 @@
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router";
 import * as Yup from "yup";
 import * as api from "../../../api";
-// import { useDispatch } from "react-redux";
-// import { addPosts } from "../actions/posts.actions";
 
 const SignUpForm = () => {
-  //   const dispatch = useDispatch();
 
-  //   onClick={formik.handleSubmit}
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -21,6 +19,7 @@ const SignUpForm = () => {
       const userInfo = await api.newUser(values);
       console.log(userInfo);
       formik.resetForm();
+      navigate("/login")
     },
     validationSchema: Yup.object({
       name: Yup.string().required("this input is required"),

@@ -7,8 +7,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setToken } from "../../../redux/reducer/app";
 
-// import { addPosts } from "../actions/posts.actions";
-
 const LogInForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,6 +19,7 @@ const LogInForm = () => {
     onSubmit: async (values) => {
       const response = await api.logIn(values.email, values.password);
       const token = response.data.token;
+      console.log(response)
       if (token) {
         dispatch(setToken(token));
         localStorage.setItem("token", token);
