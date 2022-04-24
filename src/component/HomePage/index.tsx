@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../redux/reducer/app";
+import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import * as api from "../../api";
 
 import { io, Socket } from "socket.io-client";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
-import UserMessage from "./UserMessage/UserMessage";
 import UserChat from "./UserChat/UserChat";
 
 import { IconButton } from "@mui/material";
@@ -17,7 +15,6 @@ import UserInfo from "./UserInfo/UserInfo";
 
 import Avatar from "@mui/material/Avatar";
 import logo from "../images/avatar.png";
-import { UserPayload } from "../../types";
 
 const HomePage = () => {
   const [currentChat, setCurrentChat] = useState(null);
@@ -28,22 +25,21 @@ const HomePage = () => {
     const conversations = apiChats.data[0].conversations;
     setChats(conversations);
     console.log("chats", conversations);
+
   }
   const [socket, setSocket] = useState<Socket | null>(null);
   const [chats, setChats] = useState([]);
   const [userId, setUserId] = useState<number | null>(null);
+  const [chatId, setChatId] = useState<number | null>(null);
 
   console.log("user", userId);
+  console.log("chatId", chatId)
 
-  const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.app.token);
   async function fetchUser(token: string) {
     const response = await api.getUser(token);
-    // const user = dispatch(setUser(response.data.user));
-    //console.log(user);
-    // setCurrentUser(user);
     const userId = response.data.user.id
-    //setUserId(userId);
+    setUserId(userId);
     fetchChats(userId)
   }
 
@@ -57,9 +53,6 @@ const HomePage = () => {
     setSocket(socket);
   }, []);
 
-  const user = useSelector((state: RootState) => state.app.user);
-  // console.log(user); //user data
-
   const formik = useFormik({
     initialValues: {
       message: "",
@@ -67,27 +60,25 @@ const HomePage = () => {
 
     onSubmit: async (values) => {
       const request = socket?.emit("message", values.message);
-
       console.log(request);
       formik.resetForm();
       // console.log(values.message);
-      const response = await api.sendMessage(values.message, 1, "2");
-      // console.log(response);
+      const response = await api.sendMessage(values.message, userId? userId : 0, chatId? chatId : 0);
+      console.log(response);
     },
     validationSchema: Yup.object({
       message: Yup.string().required(),
     }),
   });
 
-  //sortedChat = chat.filter((item)=> item)
-
   const changeChat = (item :any) => {
     setCurrentChat(item);
     setCurrentSelected(item.id);
+    setChatId(item.id)
     
     console.log('uhuhuhuhgu',item)
   }
-  
+
   return (
     <div className="container">
       <div className="home">
@@ -96,6 +87,7 @@ const HomePage = () => {
           {chats.map((item: any, index) => {
             return (
               <div key={index} className={`user-message-avatar ${item.id == currentSelected ? "selected" : ""}`}  onClick={() => changeChat(item)}>
+
                 <div className="user-avatar">
                   <Avatar
                     alt="Cindy Baker"
@@ -105,10 +97,10 @@ const HomePage = () => {
                 </div>
                 <div className="user-info">
                   <span className="user-name">
-                    <h4>{item.messages[0].user.name}</h4>
-                    <span className="time">{item.messages[0].dateCreated}</span>
+                    <h4>{item.users[1].name}</h4>
+                    <span className="time">{item.messages[item.messages.length-1].dateCreated}</span>
                   </span>
-                  <span className="user-msg">{item.messages[0].message}</span>
+                  <span className="user-msg">{item.messages[item.messages.length-1].message}</span>
                 </div>
               </div>
             );
@@ -120,7 +112,8 @@ const HomePage = () => {
         </div>
         <div className="chat">
           <div className="chatInput">
-            <UserInfo currentChat={currentChat} />
+
+            <UserInfo currentChat={currentChat} chatId={chatId} />
             <UserChat />
           </div>
 

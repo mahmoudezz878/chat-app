@@ -2,46 +2,28 @@ import React, { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import * as api from "../../../api";
 
-const UserChat = () => {
+const UserChat = ({chatId}: any) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState([]);
   const [oldMessages, setOldMessages] = useState([]);
 
 
-  async function fetchingChat(id: string) {
+
+
+  async function fetchingChat(id: number) {
     const oldChat = await api.getChat(id); //should use this to map old chat messages
     const chat = oldChat.data[0].messages
-    console.log(chat);
+    //console.log(chat);
     setOldMessages(chat);
   }
 
-  // const messages = [
-  //   "Hello How Are You ?",
-  //   "i'm fine what are you going to do this summer",
-  //   "i'm fine what are you going to do this summer",
-  //   "i'm fine what are you going to do this summer",
-  //   "Hello How Are You ?",
-  //   "i'm fine what are you going to do this summer",
-  //   "i'm fine what are you going to do this summer",
-  //   "i'm fine what are you going to do this summer",
-  //   "Hello How Are You ?",
-  //   "i'm fine what are you going to do this summer",
-  //   "i'm fine what are you going to do this summer",
-  //   "i'm fine what are you going to do this summer",
-  //   "Hello How Are You ?",
-  //   "i'm fine what are you going to do this summer",
-  //   "i'm fine what are you going to do this summer",
-  //   "i'm fine what are you going to do this summer",
-  // ];
-
-
   useEffect(() => {
-    fetchingChat("2");
+    fetchingChat(chatId);
     const socket: Socket = io("http://localhost:3000", {
       withCredentials: true,
     });
     setSocket(socket);
-  }, []);
+  }, [chatId]);
 
   socket?.on("new message", (message) => {
     setMessages(messages ? [...messages, message] : message);
@@ -52,7 +34,7 @@ const UserChat = () => {
 
       <ul className="user-chat">
       {oldMessages.map((a:any) => {
-          return <li  key={a} className="user-chat-li">{a.message}</li>;
+          return <li  key={a.id} className="user-chat-li">{a.message}</li>;
         })}
         {messages.map((a) => {
           return <li  key={a} className="user-chat-li">{a}</li>;
