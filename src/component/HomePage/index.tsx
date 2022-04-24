@@ -60,11 +60,8 @@ const HomePage = () => {
 
     onSubmit: async (values) => {
       const request = socket?.emit("message", values.message);
-      console.log(request);
-      formik.resetForm();
-      // console.log(values.message);
       const response = await api.sendMessage(values.message, userId? userId : 0, chatId? chatId : 0);
-      console.log(response);
+      formik.resetForm();
     },
     validationSchema: Yup.object({
       message: Yup.string().required(),
@@ -113,8 +110,8 @@ const HomePage = () => {
         <div className="chat">
           <div className="chatInput">
 
-            <UserInfo currentChat={currentChat} chatId={chatId} />
-            <UserChat />
+            <UserInfo currentChat={currentChat}  />
+            <UserChat chatId={chatId}/>
           </div>
 
           <div className="chatField">
@@ -135,12 +132,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
-      {/* <div>
-        <h1>HomePage</h1>
-        <h4>{token || localStorage.getItem("token")}</h4>
-        <h6>{user?.name}</h6>
-        </div> */}
     </div>
   );
 };

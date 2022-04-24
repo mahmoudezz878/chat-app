@@ -7,6 +7,8 @@ import logo from "../../images/avatar.png";
 //   };
 
 const UserInfo = ({ currentChat }: any) => {
+
+  console.log(currentChat);
   return (
     <div className="user-info-chat">
       {currentChat ? (
@@ -20,7 +22,7 @@ const UserInfo = ({ currentChat }: any) => {
           </div>
           <div className="user-info">
             <span className="user-chat-name">
-              <p>{currentChat?.messages[0].user.name}</p>
+              <p>{currentChat?.users[1].name}</p>
             </span>
           </div>
         </div>
