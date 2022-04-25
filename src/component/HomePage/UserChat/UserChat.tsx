@@ -7,9 +7,6 @@ const UserChat = ({chatId}: any) => {
   const [messages, setMessages] = useState([]);
   const [oldMessages, setOldMessages] = useState([]);
 
-
-
-
   async function fetchingChat(id: number) {
     const oldChat = await api.getChat(id); //should use this to map old chat messages
     const chat = oldChat.data[0].messages

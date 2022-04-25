@@ -2,10 +2,6 @@ import React from "react";
 import Avatar from "@mui/material/Avatar";
 import logo from "../../images/avatar.png";
 
-// type name = {
-//     name: string;
-//   };
-
 const UserInfo = ({ currentChat }: any) => {
 
   console.log(currentChat);

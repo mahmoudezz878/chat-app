@@ -14,3 +14,7 @@ export const sendMessage = (message: string, userId: number, conversationId: num
 export const getChat = (conversationId: number) => API.get(`/chat/${conversationId}`)
 
 export const getChats = (userId: number) => API.get(`/chat/user/${userId}`)
+
+export const getUsers = (userId: number) => API.get(`/users/${userId}`)
+
+export const newConversation = (userId: number, secondUserId: number) => API.post(`/users/conversation/${userId}/${secondUserId}`)
