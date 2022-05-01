@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 import UserChat from "./UserChat/UserChat";
 
-import { Box, IconButton } from "@mui/material";
+import { Badge, Box, IconButton } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import UserInfo from "./UserInfo/UserInfo";
@@ -49,7 +49,6 @@ const HomePage = () => {
     const socket: Socket = io("http://localhost:3000", {
       withCredentials: true,
     });
-    //fetchChats(userId? userId : 0); //use to map chats on the left
     setSocket(socket);
   }, []);
 
@@ -77,7 +76,6 @@ const HomePage = () => {
     setCurrentSelected(item.id);
     setChatId(item.id);
 
-    //console.log('item',item)
   };
 
   return (
@@ -104,22 +102,37 @@ const HomePage = () => {
                 onClick={() => changeChat(item)}
               >
                 <div className="user-avatar">
-                  <Avatar
-                    alt="Cindy Baker"
-                    src={logo}
-                    sx={{ width: 70, height: 70 }}
-                  />
+                  <Badge
+                    color="success"
+                    badgeContent=" "
+                    variant="dot"
+                    overlap="circular"
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "right",
+                    }}
+                  >
+                    <Avatar
+                      alt="Cindy Baker"
+                      src={logo}
+                      sx={{ width: 70, height: 70 }}
+                    />
+                  </Badge>
                 </div>
+
                 <div className="user-info">
                   <span className="user-name">
                     <h4>{item.users[1].name}</h4>
-                    <span className="time"> 
-                      {item.messages.dateCreated? item.messages[item.messages.length - 1].dateCreated : Date()} 
+                    <span className="time">
+                      {item.messages.length === 0
+                        ? Date()
+                        : item.messages[item.messages.length - 1].dateCreated}
                     </span>
                   </span>
                   <span className="user-msg">
-                    {item.messages.message? item.messages[item.messages.length - 1].message: "new chat"}
-                    {/* for some reason these amendments happen even if there is already a chat */}
+                    {item.messages.length === 0
+                      ? "new chat"
+                      : item.messages[item.messages.length - 1].message}
                   </span>
                 </div>
               </div>
