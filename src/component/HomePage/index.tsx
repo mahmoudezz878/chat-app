@@ -20,6 +20,7 @@ import AddConversation from "./AddConversation";
 const HomePage = () => {
   const [currentChat, setCurrentChat] = useState(null);
   const [currentSelected, setCurrentSelected] = useState(0);
+  const [loading, setLoading] = useState(true)
 
   async function fetchChats(id: number) {
     const apiChats = await api.getChats(id);
@@ -37,11 +38,21 @@ const HomePage = () => {
 
   const token = useSelector((state: RootState) => state.app.token);
   async function fetchUser(token: string) {
-    const response = await api.getUser(token);
-    const userId = response.data.user.id;
-    setUserId(userId);
-    fetchChats(userId);
+    try {
+      setLoading(true);
+      const response = await api.getUser(token);
+      const userId = response.data.user.id;
+      if(userId){
+        setUserId(userId);
+        fetchChats(userId);
+      }
+    } catch (error) {
+    }
+    finally {
+      setLoading(false);
+    }
   }
+  //need to add an else
 
   const localToken = token || localStorage.getItem("token") || "";
   useEffect(() => {
@@ -77,7 +88,10 @@ const HomePage = () => {
     setChatId(item.id);
 
   };
-
+  
+  if (loading) {
+    return <div>Loading...</div>
+  }
   return (
     <div className="container">
       <div className="home">
