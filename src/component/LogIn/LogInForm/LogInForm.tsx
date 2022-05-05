@@ -6,10 +6,13 @@ import * as api from "../../../api";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setToken } from "../../../redux/reducer/app";
+import { useState } from "react";
+import { Typography } from "@mui/material";
 
 const LogInForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState<string>("");
 
   const formik = useFormik({
     initialValues: {
@@ -17,15 +20,21 @@ const LogInForm = () => {
       email: "",
     },
     onSubmit: async (values) => {
-      const response = await api.logIn(values.email, values.password);
-      const token = response.data.token;
-      console.log(response)
-      if (token) {
-        dispatch(setToken(token));
-        localStorage.setItem("token", token);
+      try {
+        setError("");
+        const response = await api.logIn(values.email, values.password);
+        console.log(response);
+        const token = response.data.token;
+        formik.resetForm();
+        if (token) {
+          dispatch(setToken(token));
+          localStorage.setItem("token", token);
+        }
+        navigate("/");
+      } catch (error: any) {
+        setError(error.response.data.message);
+        //console.log(error.response.data.message);
       }
-      formik.resetForm();
-      navigate("/");
     },
     validationSchema: Yup.object({
       password: Yup.string().required("this input is required"),
@@ -66,11 +75,20 @@ const LogInForm = () => {
           value={formik.values.password}
           onChange={formik.handleChange}
         />
+        {error && (
+          <Typography variant="body2" color="error">
+            {error}
+          </Typography>
+        )}
         <Button className="btn" type="submit" variant="contained">
           LOGIN
         </Button>
         <div className="already">
-          don't have an account ? <a href="/signup" className="sign-in"> Sign up</a>
+          don't have an account ?{" "}
+          <a href="/signup" className="sign-in">
+            {" "}
+            Sign up
+          </a>
         </div>
       </div>
     </form>

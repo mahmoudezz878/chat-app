@@ -23,7 +23,7 @@ const AuthGuard = ({ children }: AuthGuardType) => {
       //set the user to data received
       dispatch(setUser(data));
     } catch (error) {
-      //sign out the user
+      //sign out the user (this signs out the user on reload)
       dispatch(signOut());
     } finally {
       setLoading(false);
